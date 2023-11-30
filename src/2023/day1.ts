@@ -5,7 +5,8 @@ export function day1Part1(values: string[]) {
   return { decodedNumbers: decodedNumbers, sum: sum };
 }
 
-export const day1Part1ExampleData = [
+// PLACE YOUR DATA HERE TO TEST AGAINST
+export const day1ExampleData = [
   "1abc2",
   "pqr3stu8vwx",
   "a1b2c3d4e5f",
