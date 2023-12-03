@@ -1,11 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import {
-  getEffectedSum,
-  part2GearAttemptSum,
-  part2GearedSum,
-  splitLineIntoNumberOrSymbolPositions,
-  symbolEffectedLines,
-} from './day3';
+import { part1Sum, part2BadGearSum, part2GearedSum } from './day3';
 
 describe('Day 2', () => {
   describe('Part 1', () => {
@@ -16,13 +10,7 @@ describe('Day 2', () => {
           `${import.meta.dir}/day3.example.data.txt`
         );
         const testData = await testDataFile.text();
-        const splitData = testData.split('\n');
-
-        const sum = getEffectedSum(
-          symbolEffectedLines(
-            splitData.map((v) => splitLineIntoNumberOrSymbolPositions(v))
-          )
-        );
+        const sum = part1Sum(testData);
 
         expect(sum).toBe(4361);
       });
@@ -32,18 +20,14 @@ describe('Day 2', () => {
       test('Example data returns sum 525911', async () => {
         const testDataFile = Bun.file(`${import.meta.dir}/day3.data.txt`);
         const testData = await testDataFile.text();
-        const splitData = testData.split('\n');
 
-        const sum = getEffectedSum(
-          symbolEffectedLines(
-            splitData.map((v) => splitLineIntoNumberOrSymbolPositions(v))
-          )
-        );
+        const sum = part1Sum(testData);
 
         expect(sum).toBe(525911);
       });
     });
   });
+
   describe('Part 2', () => {
     //
     describe('Example Data', () => {
@@ -62,13 +46,7 @@ describe('Day 2', () => {
           `${import.meta.dir}/day3.example.data.txt`
         );
         const testData = await testDataFile.text();
-        const splitData = testData.split('\n');
-
-        const sum = part2GearAttemptSum(
-          symbolEffectedLines(
-            splitData.map((v) => splitLineIntoNumberOrSymbolPositions(v))
-          )
-        );
+        const sum = part2BadGearSum(testData);
 
         expect(sum).toBe(467835);
       });

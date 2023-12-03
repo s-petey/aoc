@@ -15,7 +15,7 @@ type LineNumber = {
 /**
  * Start is 1 based here.
  */
-export function splitLineIntoNumberOrSymbolPositions(line: string) {
+function splitLineIntoNumberOrSymbolPositions(line: string) {
   const lineMatches: LineNumber[] = [];
   const reg = /(\d+)|[^.]/g;
   let regArray;
@@ -44,7 +44,7 @@ export function splitLineIntoNumberOrSymbolPositions(line: string) {
   return lineMatches;
 }
 
-export function symbolEffectedLines(lines: LineNumber[][]) {
+function symbolEffectedLines(lines: LineNumber[][]) {
   lines.forEach((currentLines, index) => {
     const nextLines = lines[index + 1];
 
@@ -94,7 +94,7 @@ export function symbolEffectedLines(lines: LineNumber[][]) {
   return lines;
 }
 
-export function getEffectedSum(lines: LineNumber[][]) {
+function getEffectedSum(lines: LineNumber[][]) {
   let sum = 0;
 
   lines.forEach((linePart) => {
@@ -106,6 +106,16 @@ export function getEffectedSum(lines: LineNumber[][]) {
   });
 
   return sum;
+}
+
+export function part1Sum(data: string) {
+  const splitData = data.split('\n');
+
+  return getEffectedSum(
+    symbolEffectedLines(
+      splitData.map((v) => splitLineIntoNumberOrSymbolPositions(v))
+    )
+  );
 }
 
 type ValueCoordNumber = {
@@ -123,7 +133,7 @@ type ValueCoordSymbol = {
   value: null;
 };
 
-export function splitLinesIntoCoords(data: string) {
+function splitLinesIntoCoords(data: string) {
   const numberCoords: ValueCoordNumber[] = [];
   const symbolCoords: ValueCoordSymbol[] = [];
 
@@ -192,13 +202,22 @@ export function part2GearedSum(data: string) {
   return sum;
 }
 
-// TODO: REMOVE THIS BAD ATTEMPT
+export function part2BadGearSum(data: string) {
+  const splitData = data.split('\n');
+
+  return part2GearAttemptSum(
+    symbolEffectedLines(
+      splitData.map((v) => splitLineIntoNumberOrSymbolPositions(v))
+    )
+  );
+}
+
 /**
  * This was my first attempt attempting to re-use the existing logic.
  * However attempts are somewhat futile as using the rectangle reference
  * above in the other function works much better.
  */
-export function part2GearAttemptSum(lines: LineNumber[][]) {
+function part2GearAttemptSum(lines: LineNumber[][]) {
   let sum = 0;
 
   lines.forEach((currentLines, index) => {
