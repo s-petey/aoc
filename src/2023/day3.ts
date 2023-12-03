@@ -124,6 +124,7 @@ type ValueCoordNumber = {
   y: number;
   rawValue: string;
   value: number;
+  effected: boolean;
 };
 type ValueCoordSymbol = {
   type: 'symbol';
@@ -131,30 +132,38 @@ type ValueCoordSymbol = {
   y: number;
   rawValue: string;
   value: null;
+  effected: boolean;
 };
 
 function splitLinesIntoCoords(data: string) {
   const numberCoords: ValueCoordNumber[] = [];
   const symbolCoords: ValueCoordSymbol[] = [];
+  const reg = /(\d+)|[^.]/g;
 
   data.split('\n').forEach((line, lineIndex) => {
-    for (const { index, '0': match } of line.matchAll(/\d+/g)) {
-      numberCoords.push({
-        type: 'number',
-        rawValue: match,
-        value: parseInt(match),
-        x: index!,
-        y: lineIndex,
-      });
-    }
-    for (const { index, '0': match } of line.matchAll(/[^\d\.]/g)) {
-      symbolCoords.push({
-        type: 'symbol',
-        rawValue: match,
-        value: null,
-        x: index!,
-        y: lineIndex,
-      });
+    for (const { index, '0': match } of line.matchAll(reg)) {
+      const maybeNumber = parseInt(match);
+      const isSymbol = isNaN(maybeNumber);
+
+      if (!isSymbol) {
+        numberCoords.push({
+          type: 'number',
+          rawValue: match,
+          value: parseInt(match),
+          x: index!,
+          y: lineIndex,
+          effected: false,
+        });
+      } else {
+        symbolCoords.push({
+          type: 'symbol',
+          rawValue: match,
+          value: null,
+          x: index!,
+          y: lineIndex,
+          effected: false,
+        });
+      }
     }
   });
 
@@ -180,10 +189,10 @@ function isRectangleAdjacent(
 
 export function part2GearedSum(data: string) {
   const { numberCoords, symbolCoords } = splitLinesIntoCoords(data);
+  let sum = 0;
 
-  const sum = symbolCoords
-    .filter((symbol) => symbol.rawValue === '*')
-    .map((symbol) => {
+  symbolCoords.forEach((symbol) => {
+    if (symbol.rawValue === '*') {
       const rectangleAdjacentNumbers = numberCoords
         .filter((number) => isRectangleAdjacent(number, symbol))
         .map((number) => number.value);
@@ -192,24 +201,12 @@ export function part2GearedSum(data: string) {
       const secondFound = rectangleAdjacentNumbers.at(1);
 
       if (typeof firstFound === 'number' && typeof secondFound === 'number') {
-        return firstFound * secondFound;
-      } else {
-        return 0;
+        sum += firstFound * secondFound;
       }
-    })
-    .reduce((prev, cur) => prev + cur, 0);
+    }
+  });
 
   return sum;
-}
-
-export function part2BadGearSum(data: string) {
-  const splitData = data.split('\n');
-
-  return part2GearAttemptSum(
-    symbolEffectedLines(
-      splitData.map((v) => splitLineIntoNumberOrSymbolPositions(v))
-    )
-  );
 }
 
 /**
@@ -282,4 +279,14 @@ function part2GearAttemptSum(lines: LineNumber[][]) {
   });
 
   return sum;
+}
+
+export function part2BadGearSum(data: string) {
+  const splitData = data.split('\n');
+
+  return part2GearAttemptSum(
+    symbolEffectedLines(
+      splitData.map((v) => splitLineIntoNumberOrSymbolPositions(v))
+    )
+  );
 }
