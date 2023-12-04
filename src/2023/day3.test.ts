@@ -3,7 +3,6 @@ import { part1Sum, part2BadGearSum, part2GearedSum } from './day3';
 
 describe('Day 3', () => {
   describe('Part 1', () => {
-    //
     describe('Example Data', () => {
       test('Example data returns sum 4361', async () => {
         const testDataFile = Bun.file(
@@ -29,7 +28,6 @@ describe('Day 3', () => {
   });
 
   describe('Part 2', () => {
-    //
     describe('Example Data', () => {
       test('Example data returns sum 467835', async () => {
         const testDataFile = Bun.file(
