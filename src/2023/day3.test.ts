@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 import { part1Sum, part2BadGearSum, part2GearedSum } from './day3';
 
-describe('Day 2', () => {
+describe('Day 3', () => {
   describe('Part 1', () => {
     //
     describe('Example Data', () => {
