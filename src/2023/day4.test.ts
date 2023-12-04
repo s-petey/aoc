@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { day4Part1 } from './day4';
+import { day4Part1, day4Part2 } from './day4';
 
 describe('Day 4', () => {
   describe('Part 1', () => {
@@ -28,31 +28,25 @@ describe('Day 4', () => {
   });
 
   describe('Part 2', () => {
-    // describe('Example Data', () => {
-    //   test('Example data returns sum 467835', async () => {
-    //     const testDataFile = Bun.file(
-    //       `${import.meta.dir}/day3.example.data.txt`
-    //     );
-    //     const testData = await testDataFile.text();
-    //     const sum = part2GearedSum(testData);
-    //     expect(sum).toBe(467835);
-    //   });
-    //   test('Bad attempt still returns sum 467835', async () => {
-    //     const testDataFile = Bun.file(
-    //       `${import.meta.dir}/day3.example.data.txt`
-    //     );
-    //     const testData = await testDataFile.text();
-    //     const sum = part2BadGearSum(testData);
-    //     expect(sum).toBe(467835);
-    //   });
-    // });
-    //   describe('Actual data', () => {
-    //     test('Example data returns id sum 75805607', async () => {
-    //       const testDataFile = Bun.file(`${import.meta.dir}/day3.data.txt`);
-    //       const testData = await testDataFile.text();
-    //       const sum = part2GearedSum(testData);
-    //       expect(sum).toBe(75805607);
-    //     });
-    //   });
+    describe('Example Data', () => {
+      test('Example data returns sum 30', async () => {
+        const testDataFile = Bun.file(
+          `${import.meta.dir}/day4.example.data.txt`
+        );
+        const testData = await testDataFile.text();
+        const sum = day4Part2(testData);
+
+        expect(sum).toBe(30);
+      });
+    });
+
+    describe('Actual data', () => {
+      test('Example data returns id sum 14624680', async () => {
+        const testDataFile = Bun.file(`${import.meta.dir}/day4.data.txt`);
+        const testData = await testDataFile.text();
+        const sum = day4Part2(testData);
+        expect(sum).toBe(14624680);
+      });
+    });
   });
 });

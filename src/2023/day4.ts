@@ -56,3 +56,39 @@ export function day4Part1(data: string) {
 
   return Array.from(cards.values()).reduce((prev, cur) => prev + cur.score, 0);
 }
+
+function splitDataPart2(data: string) {
+  const cards = splitData(data);
+  // Fill a new map for the card key (number) and count of cards obtained.
+  const cardsCounted = new Map<number, number>();
+  // Fill the map
+  cards.forEach((_, i) => {
+    // Make an item for each card.
+    cardsCounted.set(i, 1);
+  });
+
+  cards.forEach(({ actual, winning }, index) => {
+    let winningCards = actual.filter((number) =>
+      winning.includes(number)
+    ).length;
+
+    while (winningCards > 0) {
+      const totalValue = cardsCounted.get(index);
+      if (totalValue !== undefined) {
+        const valToUpdate = cardsCounted.get(index + winningCards);
+        if (valToUpdate !== undefined) {
+          cardsCounted.set(index + winningCards, valToUpdate + totalValue);
+        }
+        winningCards--;
+      }
+    }
+  });
+
+  return Array.from(cardsCounted.values()).reduce((prev, cur) => prev + cur, 0);
+}
+
+export function day4Part2(data: string) {
+  const cards = splitDataPart2(data);
+
+  return cards;
+}
