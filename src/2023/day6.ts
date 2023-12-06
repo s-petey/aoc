@@ -47,6 +47,44 @@ export function day6Part1(data: string) {
     .reduce((prev, cur) => prev * cur, 1);
 }
 
+export function day6Part1Attempt2(data: string) {
+  const [maxTimes, maxDistances] =
+    data
+      .split('\n\n')
+      .shift()
+      ?.split('\n')
+      .map(
+        (line) =>
+          line
+            .split(':')
+            .at(1)
+            ?.split(' ')
+            .filter((v) => v.length > 0)
+            .map((i) => i.trim())
+            .map(Number)
+      ) ?? [];
+
+  if (maxTimes === undefined || maxDistances === undefined) {
+    throw new Error('Invalid data');
+  }
+
+  let winningTimes = Array.from({ length: maxTimes.length }, () => 0);
+
+  for (let index = 0; index < maxTimes.length; index++) {
+    const maxDistance = maxDistances.at(index);
+    const maxTime = maxTimes.at(index);
+
+    if (maxDistance !== undefined && maxTime !== undefined) {
+      for (let milliseconds = 1; milliseconds <= maxTime; milliseconds++) {
+        const distance = milliseconds * (maxTime - milliseconds);
+        if (distance > maxDistance) winningTimes[index] += 1;
+      }
+    }
+  }
+
+  return winningTimes.reduce((prev, curr) => prev * curr, 1);
+}
+
 export function day6Part2(data: string) {
   const [time, distance] =
     data
@@ -78,4 +116,28 @@ export function day6Part2(data: string) {
   }
 
   return winningTimes.length;
+}
+
+export function day6Part2Attempt2(data: string) {
+  const [maxTime, maxDistance] =
+    data
+      .split('\n\n')
+      .shift()
+      ?.split('\n')
+      .map((line) => Number(line.split(':').at(1)?.split(' ').join(''))) ?? [];
+
+  if (maxTime === undefined || maxDistance === undefined) {
+    throw new Error('Invalid data');
+  }
+
+  let winningTimes = 0;
+
+  if (maxDistance !== undefined && maxTime !== undefined) {
+    for (let milliseconds = 1; milliseconds <= maxTime; milliseconds++) {
+      const distance = milliseconds * (maxTime - milliseconds);
+      if (distance > maxDistance) winningTimes += 1;
+    }
+  }
+
+  return winningTimes;
 }

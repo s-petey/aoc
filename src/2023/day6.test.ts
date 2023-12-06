@@ -1,5 +1,10 @@
 import { describe, expect, test } from 'bun:test';
-import { day6Part1, day6Part2 } from './day6';
+import {
+  day6Part1,
+  day6Part1Attempt2,
+  day6Part2,
+  day6Part2Attempt2,
+} from './day6';
 
 describe('Day 6', () => {
   describe('Part 1', () => {
@@ -18,6 +23,14 @@ describe('Day 6', () => {
 
       expect(winningRaceOptionsMultiplied).toEqual(114400);
     });
+
+    test('Actual data SPEED', async () => {
+      const testDataFile = Bun.file(`${import.meta.dir}/day6.data.txt`);
+      const testData = await testDataFile.text();
+      const winningRaceOptionsMultiplied = day6Part1Attempt2(testData);
+
+      expect(winningRaceOptionsMultiplied).toEqual(114400);
+    });
   });
 
   describe('Part 2', () => {
@@ -33,6 +46,13 @@ describe('Day 6', () => {
       const testDataFile = Bun.file(`${import.meta.dir}/day6.data.txt`);
       const testData = await testDataFile.text();
       const totalWinningTimes = day6Part2(testData);
+
+      expect(totalWinningTimes).toEqual(21039729);
+    });
+    test('Actual combined numbers winning sum SPEED', async () => {
+      const testDataFile = Bun.file(`${import.meta.dir}/day6.data.txt`);
+      const testData = await testDataFile.text();
+      const totalWinningTimes = day6Part2Attempt2(testData);
 
       expect(totalWinningTimes).toEqual(21039729);
     });
